@@ -31,7 +31,7 @@ bmi = st.text_input('Body Mass Index')
 
 dpf = st.text_input('Diabetes Pedigree Function')
 
-
+#outcome
 def get_outcome(preg2, age2, gluc2, bp2, skin2, ins2, bmi2, dpf2):
     result = gen(preg2, gluc2, bp2, skin2, ins2, bmi2, dpf2, age2)
     return result
