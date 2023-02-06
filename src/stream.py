@@ -3,8 +3,6 @@ import streamlit as st
 import pickle
 import pandas as pd
 
-valid = False
-called = False
 model = pickle.load(open('model.pkl', 'rb'))
 # hide_streamlit_style = """
 #             <style>
