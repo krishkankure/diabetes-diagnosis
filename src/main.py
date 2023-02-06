@@ -15,7 +15,7 @@ import seaborn as sns
 diabetes_data = pd.read_csv("diabetes.csv")
 
 # X3['Pregnancies'] = diabetes_data['Pregnancies']
-
+#^^^
 
 # creates input set
 X = diabetes_data.drop(columns=['Outcome'])
