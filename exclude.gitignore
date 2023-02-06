@@ -4,5 +4,7 @@ src/.idea
 src/.ipynb_checkpoints
 src/diabetes
 src/Test.ipynb
+.idea/
+TestNotebook/
 .idea
 TestNotebook
