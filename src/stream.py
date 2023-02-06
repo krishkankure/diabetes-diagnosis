@@ -2,7 +2,7 @@ from model_call import gen as gen
 import streamlit as st
 import pickle
 import pandas as pd
-
+# st.browser.gatherUsageStats = False
 model = pickle.load(open('model.pkl', 'rb'))
 # hide_streamlit_style = """
 #             <style>
