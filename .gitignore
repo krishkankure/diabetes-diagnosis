@@ -9,3 +9,5 @@ TestNotebook/
 .idea
 TestNotebook
 src/__pycache__/
+.streamlit
+
