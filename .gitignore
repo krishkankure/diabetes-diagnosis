@@ -9,5 +9,4 @@ TestNotebook/
 .idea
 TestNotebook
 src/__pycache__/
-.streamlit
-
+src/.streamlit/secrets.toml
