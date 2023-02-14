@@ -1,4 +1,4 @@
 pandas
 sklearn
 streamlit
-google-cloud-storage==2.7.0
+lightgbm

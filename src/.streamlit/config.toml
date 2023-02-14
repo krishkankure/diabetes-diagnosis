@@ -105,7 +105,7 @@
 # Enables support for Cross-Origin Resource Sharing (CORS) protection, for added security.
 # Due to conflicts between CORS and XSRF, if `server.enableXsrfProtection` is on and `server.enableCORS` is off at the same time, we will prioritize `server.enableXsrfProtection`.
 # Default: true
-# enableCORS = true
+# enableCORS = false
 
 # Enables support for Cross-Site Request Forgery (XSRF) protection, for added security.
 # Due to conflicts between CORS and XSRF, if `server.enableXsrfProtection` is on and `server.enableCORS` is off at the same time, we will prioritize `server.enableXsrfProtection`.
