@@ -12,8 +12,12 @@ RUN apt-get update && \
         gcc \
         g++ \
         git && \
-    rm -rf /var/lib/apt/lists/* && \
-    apt-get install libgomp1 -y
+    rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && apt-get -y install curl
+
+RUN apt-get install libgomp1 -y
+    # apt-get install curl 
 
 FROM python:3.10.0-slim-buster
 

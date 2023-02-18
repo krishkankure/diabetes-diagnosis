@@ -2,36 +2,73 @@ from model_call import gen as gen
 import streamlit as st
 import pickle
 import pandas as pd
-# st.browser.gatherUsageStats = False
+from random import *
 model = pickle.load(open('model.pkl', 'rb'))
-# hide_streamlit_style = """
-#             <style>
-#             #MainMenu {visibility: hidden;}
-#             footer {visibility: hidden;}
-#             </style>
-#             """
-# st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+keys = []
+def newKey():
+    int_key = (randint(1, 200000))
+    while int_key in keys:
+        int_key = (randint(1, 200000))
+    keys.append(int_key)
+    return int_key
+def add_row():
+    # Add an empty row to the session state
+    rows = st.session_state.get("rows", [])
+    rows.append({"dropdown": "", "textbox1": "", "textbox2": ""})
+    st.session_state.rows = rows
 
-# Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age,Outcome
-st.title("Women's Diabetes Diagnosis Assessment")
-st.caption("Enter the following fields")
-preg = st.text_input('Number of pregnancies', )
+def calculate():
+    # Calculate and display the result based on the user input
+    st.write("This was pressed!")
 
-age = st.text_input('Age')
+def main():
+    hide_streamlit_style = """
+                <style>
+                #MainMenu {visibility: hidden;}
+                footer {visibility: hidden;}
+                </style>
+                """
+    st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
-gluc = st.text_input('Plasma Glucose Concentration (mg/DL)')
+    # Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age,Outcome
+    st.title("Women's Diabetes Diagnosis Assessment")
 
-bp = st.text_input('Blood Pressure (mm Hg)')
+    st.caption("Enter the following fields")
+    preg = st.text_input('Number of pregnancies', )
 
-skin = st.text_input('Tricep Skin Fold Thickness (mm)')
+    age = st.text_input('Age')
 
-ins = st.text_input('Insulin Level (mu U/ml)')
+    gluc = st.text_input('Plasma Glucose Concentration (mg/DL)')
 
-bmi = st.text_input('Body Mass Index')
+    bp = st.text_input('Blood Pressure (mm Hg)')
 
-dpf = st.text_input('Diabetes Pedigree Function')
+    skin = st.text_input('Tricep Skin Fold Thickness (mm)')
 
-#outcome
+    ins = st.text_input('Insulin Level (mu U/ml)')
+
+    bmi = st.text_input('Body Mass Index')
+
+    dpf = st.text_input('Diabetes Pedigree Function')
+    st.header("Family History")
+    col1, col2 = st.columns(2)
+    if col1.button("New Relative"):
+        add_row()
+    if col2.button("Calculate"):
+        calculate()
+
+    # Add the rows
+    for i, row in enumerate(st.session_state.get("rows", [])):
+        # st.write(f"Row {i + 1}")
+        col1, col2, col3, col4 = st.columns(4)
+        row["dropdown"] = col1.selectbox("Relative Type", ["Parent", "Sibling", "Half-Sibling", "Grandparent", "Uncle/Aunt", "Half-Uncle/Aunt", "First Cousin"], key=f"dropdown_{i}")
+        row["textbox1"] = col2.text_input("Age of Relative At Diagnosis", value=row["textbox1"], key=f"textbox_{i}")
+        row["textbox2"] = col3.text_input("Age of Relative At Diagnosis", value=row["textbox2"], key=f"textbox2_{i}")
+        row["dropdown2"] = col4.selectbox("Diagnosis", ["Positive", "Negative"], key=f"dropdown2_{i}")
+
+    check(preg, age, gluc, bp, skin, ins, bmi, dpf)
+
+
+# outcome
 def get_outcome(preg2, age2, gluc2, bp2, skin2, ins2, bmi2, dpf2):
     result = gen(preg2, gluc2, bp2, skin2, ins2, bmi2, dpf2, age2)
     return result
@@ -74,21 +111,22 @@ def check(pr, ag, gl, b, sk, i, bm, dp):
     if (check_float(pr) and check_float(ag) and check_float(gl) and check_float(b) and check_float(sk) and check_float(
             i) and check_float(bm) and check_float(dp)):
         out = get_outcome(pr, ag, gl, b, sk, i, bm, dp)
-        if(out == 0):
+        if (out == 0):
             result = "negative"
         else:
             result = "positive"
 
         prob = getProbability(pr, ag, gl, b, sk, i, bm, dp)
-        if out==0:
+        if out == 0:
             real_prob = prob
         else:
-            real_prob = 1-prob
-        print_prob = round(real_prob.item()*100, 2)
+            real_prob = 1 - prob
+        print_prob = round(real_prob.item() * 100, 2)
         st.header("The patient is most likely diabetes " + result)
         st.write("It is " + str(print_prob) + "% probable that the patient is " + result + "")
     else:
         st.write("One or more fields are empty or invalid.")
 
 
-check(preg, age, gluc, bp, skin, ins, bmi, dpf)
+if __name__ == "__main__":
+    main()
