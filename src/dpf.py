@@ -18,5 +18,7 @@ def dpf_calculate(rel):
         temp = z.K * (z.ACL - 14) + 50
         denominator_sum += temp
 
+    if denominator_sum == 0:
+        denominator_sum = 1
     dpf = numerator_sum / denominator_sum
     return dpf

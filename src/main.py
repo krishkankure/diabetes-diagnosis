@@ -42,22 +42,3 @@ y_pred_proba = model.predict_proba(X_test)[::,1]
 auc = sklearn.metrics.roc_auc_score(y_test, y_pred_proba)
 
 # Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age,Outcome
-df = pd.DataFrame()
-preg = [1]
-gluc = [2]
-bp = [1]
-st = [2]
-ins = [1]
-bmi = [2]
-dpf = [1]
-age = [2]
-df['Pregnancies'] = preg
-df['Glucose'] = gluc
-df['BloodPressure'] = bp
-df['SkinThickness'] = st
-df['Insulin'] = ins
-df['BMI'] = bmi
-df['DiabetesPedigreeFunction'] = dpf
-df['Age'] = age
-print(model.predict_proba(df))
-print(model.predict(df))
