@@ -1,4 +1,5 @@
 import Relative
+import time
 from model_call import gen as gen
 import streamlit as st
 import pickle
@@ -35,6 +36,7 @@ def replace_values(lst):
     return lst
 def calculate():
     # Calculate and display the result based on the user input
+
     data = []
     relative_set = []
     for row in st.session_state.get("rows", []):
@@ -42,6 +44,7 @@ def calculate():
     fixed_data = replace_values(data)
     # st.write(fixed_data)
     object_dict = {}
+
     for x in fixed_data: # for every array in fixed data
         # "Parent", "Sibling", "Half-Sibling", "Grandparent",
         # "Uncle/Aunt", "Half-Uncle/Aunt", "First Cousin"
@@ -69,15 +72,39 @@ def calculate():
 
 def kill_all_rows():
     rows = st.session_state.get("rows", [])
-    del rows
-    st.session_state.rows = rows
+
 def main():
     hide_streamlit_style = """
-                <style>
-                #MainMenu {visibility: hidden;}
-                footer {visibility: hidden;}
-                </style>
-                """
+                    <style>
+                    div[data-testid="stToolbar"] {
+                    visibility: hidden;
+                    height: 0%;
+                    position: fixed;
+                    }
+                    div[data-testid="stDecoration"] {
+                    visibility: hidden;
+                    height: 0%;
+                    position: fixed;
+                    }
+                    div[data-testid="stStatusWidget"] {
+                    visibility: hidden;
+                    height: 0%;
+                    position: fixed;
+                    }
+                    #MainMenu {
+                    visibility: hidden;
+                    height: 0%;
+                    }
+                    header {
+                    visibility: hidden;
+                    height: 0%;
+                    }
+                    footer {
+                    visibility: hidden;
+                    height: 0%;
+                    }
+                    </style>
+                    """
     st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
     # Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age,Outcome
@@ -106,10 +133,9 @@ def main():
         add_row()
     if col2.button("Calculate"):
         dpf = str(calculate())
+
         check(preg, age, gluc, bp, skin, ins, weight, height, dpf)
-    if col3.button("Clear All"):
-        rows = st.session_state.get("rows", [])
-        kill_all_rows()
+
     # Add the rows
     for i, row in enumerate(st.session_state.get("rows", [])):
         # st.write(f"Row {i + 1}")
@@ -123,7 +149,11 @@ def main():
         if col5.button("Delete", key=f"delete_{i}"):
             delete_row(i)
 
-
+    if col3.button("Clear All"):
+        rows = st.session_state.get("rows", [])
+        del rows
+        rows = []
+        st.session_state.rows = rows
 
 
 # outcome
@@ -171,8 +201,8 @@ def check_b(w, h):
 def check(pr, ag, gl, b, sk, i, w, h, dp):
     if (check_float(pr) and check_float(ag) and check_float(gl) and check_float(b) and check_float(sk) and check_float(
             i) and check_float(w) and check_float(h) and check_float(dp) and check_b(w, h) and fh_filled):
-        kg = 0.45359237 * float(h)
-        m = 0.0254 * float(w)
+        kg = float(w)/2.205
+        m = 0.0254 * float(h)
         bm = kg / (m * m)
         out = get_outcome(pr, ag, gl, b, sk, i, bm, dp)
         if (out == 0):
@@ -187,7 +217,7 @@ def check(pr, ag, gl, b, sk, i, w, h, dp):
             real_prob = 1 - prob
         print_prob = round(real_prob.item() * 100, 2)
         if int(gl) > 200 or int(i) > 300:
-            print_prob = ">99"
+            print_prob = 99
             result = "develop"
         if print_prob >= 90:
             amt = "extremely"
@@ -197,12 +227,18 @@ def check(pr, ag, gl, b, sk, i, w, h, dp):
             amt = "moderately"
         else:
             amt = "somewhat"
+        with st.spinner('Analyzing Data...'):
+            time.sleep(1.5)
+        with st.spinner('Body Mass Index is ' + str(float(int(bm*100))/100)):
+            time.sleep(1)
+        with st.spinner('Making Prediction...'):
+            time.sleep(1.5)
         st.header("It is " + amt + " likely that the patient will " + result + " diabetes within the next 5 years.")
         st.write("It is " + str(print_prob) + "% probable that the patient will " + result + " diabetes within the next 5 years.")
         if int(gl) > 200 or int(i) > 300:
             st.caption("Note: The information you provided indicates you may already have diabetes. Learn More")
     else:
-        st.write("One or more fields are empty or invalid.")
+        st.error("One or more fields are empty or invalid.")
 
 
 if __name__ == "__main__":
