@@ -1,5 +1,5 @@
 # Diabetes Diagnosis
-Assisting in the Diagnosis of Diabetes Through Gradient-Boosted Machine Learning and Cloud-Computing
+A Web Application that Uses Gradient-Boosted Machine Learning to Accurately Predict the Onset of Diabetes 
 
 ## Local Install
 Start by cloning this project.
