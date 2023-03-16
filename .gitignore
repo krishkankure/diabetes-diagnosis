@@ -10,3 +10,6 @@ TestNotebook/
 TestNotebook
 src/__pycache__/
 src/.streamlit/secrets.toml
+cloudbuild.yaml
+getting-started/
+src/decistion_tree.log

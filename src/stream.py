@@ -65,6 +65,7 @@ def calculate():
     listed = list(object_dict.values())
     if not listed:
         global fh_filled
+        st.write('')
         fh_filled = False
 
     return dpf(listed)
@@ -74,6 +75,7 @@ def kill_all_rows():
     rows = st.session_state.get("rows", [])
 
 def main():
+    st.set_page_config(page_title="Diabetes Predictor", page_icon="💊")
     hide_streamlit_style = """
                     <style>
                     div[data-testid="stToolbar"] {
@@ -115,13 +117,13 @@ def main():
 
     age = st.text_input('Age')
 
-    gluc = st.text_input('Plasma Glucose Concentration (mg/DL)')
+    gluc = st.text_input('Postprandial Plasma Glucose Concentration (mg/DL)')
 
     bp = st.text_input('Diastolic blood pressure (mm Hg)')
 
     skin = st.text_input('Tricep Skin Fold Thickness (mm)')
 
-    ins = st.text_input('2-Hour Serum Insulin (mu U/ml) ')
+    ins = st.text_input('Postprandial Serum Insulin (mu U/ml) ')
     weight = st.text_input('Weight (in lbs)')
     height = st.text_input("Height (in in)")
     # bmi = st.text_input('Body Mass Index')
