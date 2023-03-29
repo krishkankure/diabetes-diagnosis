@@ -1,4 +1,4 @@
-# Diabetes Diagnosis
+# Diabetes Diagnosis (KureSafe)
 A Web Application that Uses Gradient-Boosted Machine Learning to Accurately Predict the Onset of Diabetes 
 !["Predicting the Onset of Diabetes"](figures/example.png)
 ## Local Install
