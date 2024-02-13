@@ -136,7 +136,7 @@ def main():
     if col2.button("Calculate"):
         dpf = str(calculate())
 
-        check(preg, age, gluc, bp, skin, ins, weight, height, dpf)
+        check(float(preg), float(age), float(gluc), float(bp), float(skin), float(ins), float(weight), float(height), float(dpf))
 
     # Add the rows
     for i, row in enumerate(st.session_state.get("rows", [])):
@@ -189,7 +189,7 @@ def getProbability(preg2, age2, gluc2, bp2, skin2, ins2, bmi2, dpf2):
 def check_float(string):
     try:
         float_value = float(string)
-        if float_value >= 0 and string.strip() != "":
+        if float_value >= 0:
             return True
         else:
             return False
