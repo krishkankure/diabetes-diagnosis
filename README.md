@@ -1,4 +1,6 @@
 # Diabetes Diagnosis
+
+VIEW DEMO HERE: https://krishkankure-diabetes.streamlit.app/
 A Web Application that Uses Gradient-Boosted Machine Learning to Accurately (>90%, multiple metrics) Predict the Onset of Diabetes 
 !["Predicting the Onset of Diabetes"](figures/example.png)
 ## Local Install
